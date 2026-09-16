@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\DashboardController as InstructorDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
@@ -24,6 +26,9 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])
                 ->name('dashboard');
+
+            Route::resource('categories', CategoryController::class)
+                ->except(['show']);
         });
 
     /*
@@ -38,6 +43,9 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/dashboard', [InstructorDashboardController::class, 'index'])
                 ->name('dashboard');
+
+            Route::resource('courses', CourseController::class)
+                ->except(['show']);
         });
 
     /*
