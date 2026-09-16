@@ -28,7 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        return match ($user->role?->slug) {
+            'admin' => redirect()->intended(route('admin.dashboard')),
+            'instructor' => redirect()->intended(route('instructor.dashboard')),
+            'student' => redirect()->intended(route('student.dashboard')),
+            default => abort(403, 'Role pengguna tidak valid.'),
+        };
     }
 
     /**
